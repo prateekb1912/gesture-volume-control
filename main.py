@@ -7,6 +7,11 @@ cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1,
                         min_detect_conf=0.65,
                         min_track_conf=0.7)
+
+# Initialize the landmarks list to calculate the distance between
+# THUMB_TIP and INDEX_FINGER_TIP to control volume
+landmarks = []
+                         
 while True:
     _, img = cap.read()
 
