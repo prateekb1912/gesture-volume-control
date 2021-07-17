@@ -12,6 +12,7 @@ while True:
 
     if _ is not None:
         img = cv2.flip(img, 1)
+        img = detector.findHands(img)
 
         cv2.imshow("Image", img)
 
