@@ -1,6 +1,8 @@
 import cv2
 from HandDetectorModule.tracker import HandDetector
-from math import sqrt
+from math import hypot
+from pycaw.pycaw import AudioUtilities, ISimpleAudioVolume
+import numpy as np
 
 cap = cv2.VideoCapture(0)
 
@@ -12,6 +14,8 @@ detector = HandDetector(maxHands=1,
 # Initialize the landmarks list to calculate the distance between
 # THUMB_TIP and INDEX_FINGER_TIP to control volume
 landmarks = []
+
+distances =[]
 
 while True:
     _, img = cap.read()
@@ -26,7 +30,9 @@ while True:
             x1, y1 = landmarks[0]
             x2, y2 = landmarks[1]
 
-            distance = sqrt((x2-x1)**2 + (y2-y1)**2)
+            distance = hypot(x2-x1, y2-y1)
+
+            distances.append(distance)
 
             cv2.putText(img, str(distance), (20, 70),
                         cv2.FONT_HERSHEY_DUPLEX, 1,
