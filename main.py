@@ -47,12 +47,12 @@ while True:
             # The range of distance is between 25 & 300
             # The volume range is -65 to 0
 
-            vol = np.interp(distance, [25, 250], [minVol, maxVol])
-            level = np.interp(distance, [25, 250], [400, 150])
-
-            print(int(level))
+            vol = np.interp(distance, [25, 300], [minVol, maxVol])
+            level = np.interp(distance, [25, 300], [400, 150])
+            perc = np.interp(distance, [25, 300], [100, 0])
 
             cv2.rectangle(img, (85, 400), (50, int(level)), (0, 0, 255), cv2.FILLED)
+            cv2.putText(img, str(int(perc)), (55, 450), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1)
 
             volume.SetMasterVolumeLevel(vol, None)
 
