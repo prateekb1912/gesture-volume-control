@@ -45,10 +45,11 @@ while True:
 
             distance = hypot(x2-x1, y2-y1)
 
-            # The range of distance is between 10 & 300
+            # The range of distance is between 25 & 300
             # The volume range is -65 to 0
 
-            volumeControl()
+            vol = np.interp(distance, [25, 300], [minVol, maxVol])
+            print(vol)
 
         cv2.imshow("Image", img)
 
