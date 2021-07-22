@@ -29,6 +29,10 @@ volRange = volume.GetVolumeRange()
 minVol = volRange[0]
 maxVol = volRange[1]
 
+distRange = [25, 300]
+volBarZero = (85, 400)
+volBarMax = (50, 150)
+
 while True:
     _, img = cap.read()
 
@@ -47,16 +51,16 @@ while True:
             # The range of distance is between 25 & 300
             # The volume range is -65 to 0
 
-            vol = np.interp(distance, [25, 300], [minVol, maxVol])
-            level = np.interp(distance, [25, 300], [400, 150])
-            perc = np.interp(distance, [25, 300], [100, 0])
+            vol = np.interp(distance, distRange, [minVol, maxVol])
+            level = np.interp(distance, distRange, [volBarZero[1], volBarMax[1]])
+            perc = np.interp(distance, distRange, [0, 100])
 
-            cv2.rectangle(img, (85, 400), (50, int(level)), (0, 0, 255), cv2.FILLED)
+            cv2.rectangle(img, volBarZero, (volBarMax[0], int(level)), (0, 0, 255), cv2.FILLED)
             cv2.putText(img, str(int(perc)), (55, 450), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1)
 
             volume.SetMasterVolumeLevel(vol, None)
 
-        cv2.rectangle(img, (50, 150), (85, 400), (0, 255, 0), 3)
+        cv2.rectangle(img, volBarMax, volBarZero, (0, 255, 0), 3)
 
         cv2.imshow("Image", img)
 
