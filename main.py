@@ -2,7 +2,7 @@ import cv2
 from HandDetectorModule.tracker import HandDetector
 from math import hypot
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
-from ctypes import cast, pointer
+from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 import numpy as np
 
@@ -16,18 +16,19 @@ detector = HandDetector(maxHands=1,
 # Initialize the landmarks list to calculate the distance between
 # THUMB_TIP and INDEX_FINGER_TIP to control volume
 landmarks = []
+devices = AudioUtilities.GetSpeakers()
 
-def volumeControl():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None
-    )
+interface = devices.Activate(
+    IAudioEndpointVolume._iid_, CLSCTX_ALL, None
+)
 
-    volume = cast(interface, pointer(IAudioEndpointVolume))
-    # volume.GetMute()
-    # volume.GetMasterVolumeLevel()
-    print(volume.GetVolumeRange())
-    # volume.SetMasterVolumeLevel(-20.0, None)
+volume = cast(interface, POINTER(IAudioEndpointVolume))
+
+volRange = volume.GetVolumeRange()
+volume.SetMasterVolumeLevel(0, None)
+
+minVol = volRange[0]
+maxVol = volRange[1]
 
 while True:
     _, img = cap.read()
@@ -51,5 +52,5 @@ while True:
 
         cv2.imshow("Image", img)
 
-    if cv2.waitKey(1) == 27:
-        break
+        if cv2.waitKey(1) == 27:
+            break
