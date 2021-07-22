@@ -25,7 +25,6 @@ interface = devices.Activate(
 volume = cast(interface, POINTER(IAudioEndpointVolume))
 
 volRange = volume.GetVolumeRange()
-volume.SetMasterVolumeLevel(0, None)
 
 minVol = volRange[0]
 maxVol = volRange[1]
@@ -48,8 +47,16 @@ while True:
             # The range of distance is between 25 & 300
             # The volume range is -65 to 0
 
-            vol = np.interp(distance, [25, 300], [minVol, maxVol])
-            print(vol)
+            vol = np.interp(distance, [25, 250], [minVol, maxVol])
+            level = np.interp(distance, [25, 250], [400, 150])
+
+            print(int(level))
+
+            cv2.rectangle(img, (85, 400), (50, int(level)), (0, 0, 255), cv2.FILLED)
+
+            volume.SetMasterVolumeLevel(vol, None)
+
+        cv2.rectangle(img, (50, 150), (85, 400), (0, 255, 0), 3)
 
         cv2.imshow("Image", img)
 
