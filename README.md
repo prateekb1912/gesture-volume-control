@@ -1,6 +1,6 @@
 # VOLUME CONTROL WITH GESTURES
 
-A simple Python CV project which lets the user turn the Windows volume up or down with their hand gestures. This project makes use of the OpenCV and Mediapipe libraries for necessary functions.
+    A simple Python CV project which lets the user turn the Windows volume up or down with their hand gestures. This project makes use of the OpenCV and Mediapipe libraries for necessary functions.
 
 ## How this works ?
 
@@ -8,3 +8,12 @@ Simple. Just run the program, and wait till the webcam gets activated and then p
 
 This works for One hand only, so if you want to switch hands, move your hand out of the frame and bring the other hand and have fun!
 
+
+## Examples
+
+Here are some of the examples from this project:
+
+![](example-1.png)
+![](example-2.png)
+![](example-3.png)
+![](example-4.png)
