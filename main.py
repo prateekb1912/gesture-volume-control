@@ -9,11 +9,11 @@ import numpy as np
 cap = cv2.VideoCapture(0)
 
 cv2.namedWindow("Gesture Control", cv2.WINDOW_KEEPRATIO)
-cv2.resizeWindow("Gesture Control", 1280, 640)
+# cv2.resizeWindow("Gesture Control", 1280, 640)
 
 # Initialize hand detector object
 detector = HandDetector(maxHands=1,
-                        min_detect_conf=0.65,
+                        min_detect_conf=0.6,
                         min_track_conf=0.7)
 
 # Initialize the landmarks list to calculate the distance between
@@ -32,7 +32,7 @@ volRange = volume.GetVolumeRange()
 minVol = volRange[0]
 maxVol = volRange[1]
 
-distRange = [25, 285]
+distRange = [25, 250]
 volBarZero = (85, 400)
 volBarMax = (50, 150)
 
@@ -58,6 +58,10 @@ while True:
             level = np.interp(distance, distRange, [volBarZero[1], volBarMax[1]])
             perc = np.interp(distance, distRange, [0, 100])
 
+            if perc > 80:
+                print(vol)
+                print(distance)
+                print(perc)
             cv2.rectangle(img, volBarZero, (volBarMax[0], int(level)), (0, 0, 255), cv2.FILLED)
             cv2.putText(img, str(int(perc)), (55, 450), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 1)
 
@@ -69,3 +73,5 @@ while True:
 
         if cv2.waitKey(1) == 27:
             break
+
+cv2.destroyAllWindows()
