@@ -8,6 +8,9 @@ import numpy as np
 
 cap = cv2.VideoCapture(0)
 
+cv2.namedWindow("Gesture Control", cv2.WINDOW_KEEPRATIO)
+cv2.resizeWindow("Gesture Control", 1280, 640)
+
 # Initialize hand detector object
 detector = HandDetector(maxHands=1,
                         min_detect_conf=0.65,
@@ -29,7 +32,7 @@ volRange = volume.GetVolumeRange()
 minVol = volRange[0]
 maxVol = volRange[1]
 
-distRange = [25, 300]
+distRange = [25, 285]
 volBarZero = (85, 400)
 volBarMax = (50, 150)
 
@@ -48,7 +51,7 @@ while True:
 
             distance = hypot(x2-x1, y2-y1)
 
-            # The range of distance is between 25 & 300
+            # The range of distance is between 25 & 275
             # The volume range is -65 to 0
 
             vol = np.interp(distance, distRange, [minVol, maxVol])
@@ -62,7 +65,7 @@ while True:
 
         cv2.rectangle(img, volBarMax, volBarZero, (0, 255, 0), 3)
 
-        cv2.imshow("Image", img)
+        cv2.imshow("Gesture Control", img)
 
         if cv2.waitKey(1) == 27:
             break
